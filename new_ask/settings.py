@@ -111,7 +111,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 #Userpics Media Directory
 USERPICS_DIR = 'userpics'
-NO_PIC_USER_PATH = 'userpics/no-user-picture.jpg'
+NO_PIC_USER_PATH = 'no-user-picture.jpg'
 
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # SESSION_COOKIE_AGE = 5 * 60

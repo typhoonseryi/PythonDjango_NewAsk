@@ -67,7 +67,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField('active', default=True)
     is_verified = models.BooleanField('verified', default=False)
     verification_uuid = models.UUIDField('Unique Verification UUID', default=uuid.uuid4)
-    userpic = models.ImageField(upload_to=settings.USERPICS_DIR, storage=UUIDFileStorage(), default=settings.NO_PIC_USER_PATH)
+    userpic = models.ImageField(upload_to=settings.USERPICS_DIR,
+                                storage=UUIDFileStorage(location=settings.MEDIA_ROOT + '/' + settings.USERPICS_DIR,
+                                                        base_url=settings.MEDIA_URL + '/' + settings.USERPICS_DIR),
+                                default=settings.NO_PIC_USER_PATH)
 
     def get_short_name(self):
         return self.username
