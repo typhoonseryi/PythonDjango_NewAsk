@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block styles %}
+<link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<body class="text-center">
+{% endblock %}
+
+{% block form %}
+
+<form class="form-signin" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    {% if form.errors %}
+    <p class="text-danger">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    <a href="{% url 'main_page' %}"><img class="mb-4" src="/media/qa-logo.png" alt="" width="72" height="72"></a>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+    <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+
+{% endblock %}

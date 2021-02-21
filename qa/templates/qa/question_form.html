@@ -1,0 +1,18 @@
+{% extends "qa/main.html" %}
+{% load static %}
+
+{% block nav %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block paginate %}{% endblock %}
+
+{% block form %}
+<form class="ans_sub" method="post">
+{% csrf_token %}
+<fieldset>
+{{ form.as_ul }}
+</fieldset>
+<button type="submit">Submit</button>
+</form>
+{% endblock %}

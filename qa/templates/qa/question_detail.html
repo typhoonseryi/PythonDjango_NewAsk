@@ -1,0 +1,156 @@
+{% extends "qa/main.html" %}
+{% load static %}
+
+{% block add_styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/q_details.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10" style="border: 1px solid black; margin-left: 50px">
+        <div class="row">
+
+            <div class="col-lg-4" style="margin:20px">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ question.author.userpic.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <h5 class="card-subtitle mb-2 text-muted">Author:
+                                <a href="{% url 'look_account' slug=question.author.username %}">{{ question.author.username }}</a>
+                            </h5>
+                        </div>
+                        <div class="row">
+                            <div class="like">
+                              <input type="hidden" name="question_id" value="{{ id }}">
+                              <input type="hidden" name="user_id" value="{{ user.id }}">
+                              <div><button class='like-toggle basic2'> ♥</button><span id="rating"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7" style="margin:20px">
+                <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">{{ question.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ question.added_at }}</h6>
+                    <p class="card-text">{{ question.text }}</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr style="border: 1px solid black;" id="page_anchor">
+<h2 class="text-center">Answers</h2>
+
+
+{% for answer in page_obj %}
+<div class="row">
+    <div class="col-lg-10" style="border: 1px solid black; margin-left: 50px; margin-top:50px">
+        <div class="row">
+
+            <div class="col-lg-4" style="margin:20px">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ answer.author.userpic.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <h5 class="card-subtitle mb-2 text-muted">Author:
+                                <a href="{% url 'look_account' slug=answer.author.username %}">{{ answer.author.username }}</a>
+                            </h5>
+                        </div>
+                        <div class="row">
+                            <div class="like">
+                              <input type="hidden" name="question_id" value="{{ id }}">
+                              <input type="hidden" name="user_id" value="{{ user.id }}">
+                              <div><button class='like-toggle basic2'> ♥</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7" style="margin:20px">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ answer.added_at }}</h6>
+                    <p class="card-text">{{ answer.text }}</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block paginate %}
+<div class="align-middle">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}#page_anchor" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% for p in paginator.page_range %}
+            {% if p == page_obj.number %}
+            <li class="page-item active">
+            {% else %}
+            <li class="page-item">
+            {% endif %}
+              <a class="page-link" href="?page={{ p }}#page_anchor">{{ p }}</a>
+            </li>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}#page_anchor" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block form %}
+{% if not request.user.is_anonymous %}
+<h2>Type your answer</h2>
+<form class="ans_sub" method="post" action="{% url 'question_details' question.id %}">
+{% csrf_token %}
+<fieldset>
+{{ form.as_ul }}
+</fieldset>
+<button type="submit">Submit</button>
+</form>
+{% else %}
+<h2>Login to type the answer</h2>
+{% endif %}
+{% endblock %}
+
+
