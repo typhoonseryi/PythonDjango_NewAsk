@@ -61,11 +61,12 @@ class QuestionDetailsView(ListView):
 class QuestionCreateView(CreateView):
     form_class = QuestionForm
     template_name = 'qa/question_form.html'
-    success_url = '/'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        self.object = form.save()
+        url = reverse('question_details', kwargs={'id': self.object.id})
+        return HttpResponseRedirect(url)
 
 
 #user_create

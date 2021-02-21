@@ -105,10 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
 #Custom User Model
 AUTH_USER_MODEL = 'qa.User'
 
+#Settings Login, Logout views
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-#Userpics Media Dir
+#Userpics Media Directory
 USERPICS_DIR = 'userpics'
 NO_PIC_USER_PATH = 'userpics/no-user-picture.jpg'
 
